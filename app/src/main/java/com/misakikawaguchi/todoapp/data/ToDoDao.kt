@@ -13,6 +13,7 @@ interface ToDoDao {
     // LiveData：監視可能なデータホルダークラス、データに変更があった場合はObserver(Fragment)に通知しUIをアップデートしてくれる
     // データベーステーブルからデータを受け取る（todo_tableからidを昇順で取得）
     @Query("SELECT * FROM todo_table ORDER BY id ASC")
+    // getAll()の戻り値をLiveDataにすることにより、Roomがデータベースに変更があった場合に通知してくれる内部コードを生成する
     fun getAllData(): LiveData<List<ToDoData>>
 
     // データを挿入
