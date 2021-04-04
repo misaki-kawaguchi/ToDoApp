@@ -1,7 +1,8 @@
-package com.misakikawaguchi.todoapp.data
+package com.misakikawaguchi.todoapp.data.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.misakikawaguchi.todoapp.data.models.Priority
 
 // DBのテーブル（data classに@Entityアノテーションをつけることで定義される）
 @Entity(tableName = "todo_table")

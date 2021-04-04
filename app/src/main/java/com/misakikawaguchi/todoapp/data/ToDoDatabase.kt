@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.misakikawaguchi.todoapp.data.models.ToDoData
 
 /*
 SQLiteと直接接続する部分

@@ -1,6 +1,8 @@
-package com.misakikawaguchi.todoapp.data
+package com.misakikawaguchi.todoapp.data.repository
 
 import androidx.lifecycle.LiveData
+import com.misakikawaguchi.todoapp.data.ToDoDao
+import com.misakikawaguchi.todoapp.data.models.ToDoData
 
 // ViewModelとデータベースの中継をする
 class ToDoRepository(private val toDoDao: ToDoDao) {

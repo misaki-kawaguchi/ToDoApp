@@ -1,6 +1,7 @@
 package com.misakikawaguchi.todoapp.data
 
 import androidx.room.TypeConverter
+import com.misakikawaguchi.todoapp.data.models.Priority
 
 // 対応していない型をStringやIntなどの型に変換して保存し、読み出すときは逆にString、Intから元の型に変換することで、Roomで扱えるようにする
 class Converter {

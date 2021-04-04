@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.misakikawaguchi.todoapp.data.models.ToDoData
 
 // Databaseにアクセスするためのメソッドを格納するオブジェクト、インターフェース
 @Dao
