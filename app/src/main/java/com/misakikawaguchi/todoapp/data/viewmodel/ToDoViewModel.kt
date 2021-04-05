@@ -19,7 +19,7 @@ class ToDoViewModel(application: Application): AndroidViewModel(application) {
 
     // リポジトリを作成
     private val repository: ToDoRepository
-    private val getAllData: LiveData<List<ToDoData>>
+    val getAllData: LiveData<List<ToDoData>>
 
     // リポジトリを初期化
     init {

@@ -6,11 +6,11 @@ import com.misakikawaguchi.todoapp.data.models.Priority
 
 // DBのテーブル（data classに@Entityアノテーションをつけることで定義される）
 @Entity(tableName = "todo_table")
-data class ToDoData(
+data class ToDoData (
     // autoGenerate = true → SQLiteがユニークなIDを生成する
     @PrimaryKey(autoGenerate = true)
     var id: Int,
     var title: String,
-    var Priority: Priority,
+    var priority: Priority,
     var description: String
 )
