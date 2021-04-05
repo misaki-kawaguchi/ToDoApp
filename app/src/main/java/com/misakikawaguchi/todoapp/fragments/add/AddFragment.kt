@@ -13,6 +13,7 @@ import com.misakikawaguchi.todoapp.data.models.ToDoData
 import com.misakikawaguchi.todoapp.data.viewmodel.ToDoViewModel
 import com.misakikawaguchi.todoapp.fragments.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_add.*
+import kotlinx.android.synthetic.main.fragment_add.view.*
 
 class AddFragment : Fragment() {
 
@@ -30,6 +31,9 @@ class AddFragment : Fragment() {
 
         // メニューを設定する
         setHasOptionsMenu(true)
+
+        // 優先度を選択
+        view.priorities_spinner.onItemSelectedListener = mSharedViewModel.listener
 
         return view
     }
