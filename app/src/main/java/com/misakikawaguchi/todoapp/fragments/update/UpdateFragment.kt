@@ -31,7 +31,7 @@ class UpdateFragment : Fragment() {
 
         view.current_title_et.setText(args.currentItem.title)
         view.current_description_et.setText(args.currentItem.description)
-        view.current_priorities_spinner.setSelection(parsePriority(args.currentItem.priority))
+        view.current_priorities_spinner.setSelection(mSharedViewModel.parsePriorityToInt(args.currentItem.priority))
         view.current_priorities_spinner.onItemSelectedListener = mSharedViewModel.listener
 
         return view
@@ -42,12 +42,4 @@ class UpdateFragment : Fragment() {
         inflater.inflate(R.menu.update_fragment_menu, menu)
     }
 
-    // 優先度を解析する
-    private fun parsePriority(priority: Priority): Int {
-        return when(priority) {
-            Priority.HIGH -> 0
-            Priority.MEDIUM -> 1
-            Priority.LOW -> 2
-        }
-    }
 }
