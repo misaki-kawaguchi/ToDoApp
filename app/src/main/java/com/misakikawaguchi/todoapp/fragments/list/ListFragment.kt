@@ -9,12 +9,19 @@ import kotlinx.android.synthetic.main.fragment_list.view.*
 
 class ListFragment : Fragment() {
 
+    // ListAdapterを初期化
+    private val adapter: ListAdapter by lazy { ListAdapter() }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_list, container, false)
+
+        // adapterの設定
+        val recyclerView = view.recyclerView
+        recyclerView.adapter = adapter
 
         view.floatingActionButton.setOnClickListener {
             findNavController().navigate(R.id.action_listFragment_to_addFragment)
