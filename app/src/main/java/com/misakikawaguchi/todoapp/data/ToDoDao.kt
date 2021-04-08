@@ -1,10 +1,7 @@
 package com.misakikawaguchi.todoapp.data
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.misakikawaguchi.todoapp.data.models.ToDoData
 
 // Databaseにアクセスするためのメソッドを格納するオブジェクト、インターフェース
@@ -22,4 +19,7 @@ interface ToDoDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     // suspend:現在のコルーチンの実行を一時停止し、すべてのローカル変数を保存
     suspend fun insertData(toDoData: ToDoData)
+
+    @Update
+    suspend fun updateData(toDoData: ToDoData)
 }
