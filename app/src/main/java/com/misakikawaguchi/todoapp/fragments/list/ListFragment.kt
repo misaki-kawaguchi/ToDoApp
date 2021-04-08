@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.misakikawaguchi.todoapp.R
 import kotlinx.android.synthetic.main.fragment_list.view.*
 
@@ -22,6 +23,8 @@ class ListFragment : Fragment() {
         // adapterの設定
         val recyclerView = view.recyclerView
         recyclerView.adapter = adapter
+        // LayoutManagerの設定
+        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
 
         view.floatingActionButton.setOnClickListener {
             findNavController().navigate(R.id.action_listFragment_to_addFragment)
