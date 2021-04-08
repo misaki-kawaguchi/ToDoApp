@@ -3,12 +3,17 @@ package com.misakikawaguchi.todoapp.fragments.list
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.misakikawaguchi.todoapp.R
+import com.misakikawaguchi.todoapp.data.viewmodel.ToDoViewModel
 import kotlinx.android.synthetic.main.fragment_list.view.*
 
 class ListFragment : Fragment() {
+
+    // ViewModelを初期化
+    private val mToDoViewModel: ToDoViewModel by viewModels()
 
     // ListAdapterを初期化
     private val adapter: ListAdapter by lazy { ListAdapter() }
