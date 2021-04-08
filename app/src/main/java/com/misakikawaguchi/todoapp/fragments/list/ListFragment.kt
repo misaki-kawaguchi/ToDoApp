@@ -11,12 +11,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.misakikawaguchi.todoapp.R
 import com.misakikawaguchi.todoapp.data.viewmodel.ToDoViewModel
+import com.misakikawaguchi.todoapp.fragments.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_list.view.*
 
 class ListFragment : Fragment() {
 
     // ViewModelを初期化
     private val mToDoViewModel: ToDoViewModel by viewModels()
+    private val mSharedViewModel: SharedViewModel by viewModels()
 
     // ListAdapterを初期化
     private val adapter: ListAdapter by lazy { ListAdapter() }
@@ -37,7 +39,12 @@ class ListFragment : Fragment() {
         // fragmentで監視するときは引数にviewLifecycleOwnerを渡す
         // データに変更があった場合は更新される（ListAdapter.kt）
         mToDoViewModel.getAllData.observe(viewLifecycleOwner, Observer { data ->
+            mSharedViewModel.checkIfDatabaseEmpty(data)
             adapter.setData(data)
+        })
+
+        mSharedViewModel.emptyDatabase.observe(viewLifecycleOwner, Observer {
+            showEmptyDatabaseViews(it)
         })
 
         view.floatingActionButton.setOnClickListener {
@@ -48,6 +55,17 @@ class ListFragment : Fragment() {
         setHasOptionsMenu(true)
 
         return view
+    }
+
+    // データがからの場合はNo dataと表示する
+    private fun showEmptyDatabaseViews(emptyDatabase: Boolean) {
+        if(emptyDatabase) {
+            view?.no_data_imageView?.visibility = View.VISIBLE
+            view?.no_data_textView?.visibility = View.VISIBLE
+        }else {
+            view?.no_data_imageView?.visibility = View.INVISIBLE
+            view?.no_data_textView?.visibility = View.INVISIBLE
+        }
     }
 
     // オプションメニューを表示する

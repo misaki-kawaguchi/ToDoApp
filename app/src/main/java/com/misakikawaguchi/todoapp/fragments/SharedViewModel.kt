@@ -7,11 +7,20 @@ import android.widget.AdapterView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import com.misakikawaguchi.todoapp.R
 import com.misakikawaguchi.todoapp.data.models.Priority
+import com.misakikawaguchi.todoapp.data.models.ToDoData
 
 // AndroidViewモデルを拡張
 class SharedViewModel(application: Application): AndroidViewModel(application)  {
+
+    /** ============================= List Fragment ============================= */
+    val emptyDatabase: MutableLiveData<Boolean> = MutableLiveData(false)
+
+    fun checkIfDatabaseEmpty(toDoData: List<ToDoData>) {
+        emptyDatabase.value = toDoData.isEmpty()
+    }
 
     /** ============================= Add/Update Fragment ============================= */
     // 項目の選択イベントを受け取る
