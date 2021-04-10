@@ -10,53 +10,41 @@ import androidx.recyclerview.widget.RecyclerView
 import com.misakikawaguchi.todoapp.R
 import com.misakikawaguchi.todoapp.data.models.Priority
 import com.misakikawaguchi.todoapp.data.models.ToDoData
+import com.misakikawaguchi.todoapp.databinding.RowLayoutBinding
 import kotlinx.android.synthetic.main.row_layout.view.*
 
 // ListAdapter：リストで要素が修正、追加、削除、移動が発生した場合、必ず変更が反映された新しいリストをListAdapterへ渡しアップデートされたRecyclerViewを確認できる
 class ListAdapter: RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
 
     // 空のリスト
-    internal var dataList = emptyList<ToDoData>()
+    private var dataList = emptyList<ToDoData>()
 
     // RecyclerViewを継承したHolder
-    class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+    class MyViewHolder(private val binding: RowLayoutBinding): RecyclerView.ViewHolder(binding.root) {
+        fun bind(toDoData: ToDoData) {
+            binding.toDoData = toDoData
+            binding.executePendingBindings()
+        }
+        companion object {
+            fun from(parent: ViewGroup): MyViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = RowLayoutBinding.inflate(layoutInflater, parent, false)
+                return MyViewHolder(binding)
+            }
+        }
+    }
 
     // 新しいViewHolderインスタンスを生成
     // XMLファイルをinflateして作成したViewオブジェクトを、独自のViewHolderインスタンスにセットして返せばよい
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        return MyViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.row_layout, parent, false))
+        return MyViewHolder.from(parent)
     }
 
     // ViewHolder の表示内容を更新
     // パラメータで渡されるViewHolderが最初に表示されるときにも呼び出されるし、使いまわされるときにも呼び出される
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.itemView.title_txt.text = dataList[position].title
-        holder.itemView.description_txt.text = dataList[position].description
-        holder.itemView.row_background.setOnClickListener {
-            val action = ListFragmentDirections.actionListFragmentToUpdateFragment(dataList[position])
-            holder.itemView.findNavController().navigate(action)
-        }
-
-        when(dataList[position].priority) {
-            Priority.HIGH -> holder.itemView.priority_indicator.setCardBackgroundColor(
-                ContextCompat.getColor(
-                    holder.itemView.context,
-                    R.color.red
-                )
-            )
-            Priority.MEDIUM -> holder.itemView.priority_indicator.setCardBackgroundColor(
-                ContextCompat.getColor(
-                    holder.itemView.context,
-                    R.color.yellow
-                )
-            )
-            Priority.LOW -> holder.itemView.priority_indicator.setCardBackgroundColor(
-                ContextCompat.getColor(
-                    holder.itemView.context,
-                    R.color.green
-                )
-            )
-        }
+        val currentItem = dataList[position]
+        holder.bind(currentItem)
     }
 
     // セットされているデータの要素数を返す
