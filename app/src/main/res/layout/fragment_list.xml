@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="mSharedViewModel"
+            type="com.misakikawaguchi.todoapp.fragments.SharedViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
