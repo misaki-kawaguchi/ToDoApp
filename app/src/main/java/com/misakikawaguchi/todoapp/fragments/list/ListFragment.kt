@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.misakikawaguchi.todoapp.R
 import com.misakikawaguchi.todoapp.data.viewmodel.ToDoViewModel
+import com.misakikawaguchi.todoapp.databinding.FragmentListBinding
 import com.misakikawaguchi.todoapp.fragments.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_list.view.*
 
@@ -20,21 +21,21 @@ class ListFragment : Fragment() {
     private val mToDoViewModel: ToDoViewModel by viewModels()
     private val mSharedViewModel: SharedViewModel by viewModels()
 
+    private var _binding: FragmentListBinding? = null
+    // このプロパティは、onCreateViewとonDestroyViewの間でのみ有効
+    private val binding get() = _binding!!
+
     // ListAdapterを初期化
     private val adapter: ListAdapter by lazy { ListAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_list, container, false)
+    ): View? {// Data binding
+        _binding = FragmentListBinding.inflate(inflater, container, false)
 
-        // adapterの設定
-        val recyclerView = view.recyclerView
-        recyclerView.adapter = adapter
-        // LayoutManagerの設定
-        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        // RecyclerViewの設定
+        setupRecyclerview()
 
         // fragmentで監視するときは引数にviewLifecycleOwnerを渡す
         // データに変更があった場合は更新される（ListAdapter.kt）
@@ -47,14 +48,18 @@ class ListFragment : Fragment() {
             showEmptyDatabaseViews(it)
         })
 
-        view.floatingActionButton.setOnClickListener {
-            findNavController().navigate(R.id.action_listFragment_to_addFragment)
-        }
-
         // メニューを設定する
         setHasOptionsMenu(true)
 
-        return view
+        return binding.root
+    }
+
+    private fun setupRecyclerview() {
+        // adapterの設定
+        val recyclerView = binding.recyclerView
+        recyclerView.adapter = adapter
+        // LayoutManagerの設定
+        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
     }
 
     // データがからの場合はNo dataと表示する
@@ -96,5 +101,10 @@ class ListFragment : Fragment() {
         builder.setTitle("Delete everything?")
         builder.setMessage("Are you sure you want to remove everything?")
         builder.create().show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
