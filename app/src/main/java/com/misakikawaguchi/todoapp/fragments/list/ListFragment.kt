@@ -46,10 +46,6 @@ class ListFragment : Fragment() {
             adapter.setData(data)
         })
 
-        mSharedViewModel.emptyDatabase.observe(viewLifecycleOwner, Observer {
-            showEmptyDatabaseViews(it)
-        })
-
         // メニューを設定する
         setHasOptionsMenu(true)
 
@@ -62,17 +58,6 @@ class ListFragment : Fragment() {
         recyclerView.adapter = adapter
         // LayoutManagerの設定
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
-    }
-
-    // データがからの場合はNo dataと表示する
-    private fun showEmptyDatabaseViews(emptyDatabase: Boolean) {
-        if(emptyDatabase) {
-            view?.no_data_imageView?.visibility = View.VISIBLE
-            view?.no_data_textView?.visibility = View.VISIBLE
-        }else {
-            view?.no_data_imageView?.visibility = View.INVISIBLE
-            view?.no_data_textView?.visibility = View.INVISIBLE
-        }
     }
 
     // オプションメニューを表示する

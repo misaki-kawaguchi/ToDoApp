@@ -1,6 +1,8 @@
 package com.misakikawaguchi.todoapp.fragments
 
+import android.view.View
 import androidx.databinding.BindingAdapter
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.misakikawaguchi.todoapp.R
@@ -18,6 +20,16 @@ class BindingAdapters {
                 }
             }
         }
+
+        @BindingAdapter("android:emptyDatabase")
+        @JvmStatic
+        fun emptyDatabase(view: View, emptyDatabase: MutableLiveData<Boolean>){
+            when(emptyDatabase.value){
+                true -> view.visibility = View.VISIBLE
+                false -> view.visibility = View.INVISIBLE
+            }
+        }
+
     }
 
 }
