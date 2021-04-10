@@ -33,6 +33,8 @@ class ListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {// Data binding
         _binding = FragmentListBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
+        binding.mSharedViewModel = mSharedViewModel
 
         // RecyclerViewの設定
         setupRecyclerview()
