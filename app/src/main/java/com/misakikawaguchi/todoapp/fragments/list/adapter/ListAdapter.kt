@@ -1,23 +1,16 @@
-package com.misakikawaguchi.todoapp.fragments.list
+package com.misakikawaguchi.todoapp.fragments.list.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.navigation.findNavController
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.misakikawaguchi.todoapp.R
-import com.misakikawaguchi.todoapp.data.models.Priority
 import com.misakikawaguchi.todoapp.data.models.ToDoData
 import com.misakikawaguchi.todoapp.databinding.RowLayoutBinding
-import kotlinx.android.synthetic.main.row_layout.view.*
 
 // ListAdapter：リストで要素が修正、追加、削除、移動が発生した場合、必ず変更が反映された新しいリストをListAdapterへ渡しアップデートされたRecyclerViewを確認できる
 class ListAdapter: RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
 
     // 空のリスト
-    private var dataList = emptyList<ToDoData>()
+    var dataList = emptyList<ToDoData>()
 
     // RecyclerViewを継承したHolder
     class MyViewHolder(private val binding: RowLayoutBinding): RecyclerView.ViewHolder(binding.root) {
