@@ -17,6 +17,7 @@ import com.misakikawaguchi.todoapp.data.viewmodel.ToDoViewModel
 import com.misakikawaguchi.todoapp.databinding.FragmentListBinding
 import com.misakikawaguchi.todoapp.fragments.SharedViewModel
 import com.misakikawaguchi.todoapp.fragments.list.adapter.ListAdapter
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
 class ListFragment : Fragment() {
 
@@ -61,6 +62,9 @@ class ListFragment : Fragment() {
         recyclerView.adapter = adapter
         // LayoutManagerの設定
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        recyclerView.itemAnimator = SlideInUpAnimator().apply {
+            addDuration = 300
+        }
 
         swipeToDelete(recyclerView)
     }
