@@ -2,7 +2,9 @@ package com.misakikawaguchi.todoapp.fragments.list
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.*
+import androidx.appcompat.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -19,7 +21,7 @@ import com.misakikawaguchi.todoapp.fragments.SharedViewModel
 import com.misakikawaguchi.todoapp.fragments.list.adapter.ListAdapter
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
-class ListFragment : Fragment() {
+class ListFragment : Fragment(), SearchView.OnQueryTextListener {
 
     // ViewModelを初期化
     private val mToDoViewModel: ToDoViewModel by viewModels()
@@ -100,6 +102,11 @@ class ListFragment : Fragment() {
     // オプションメニューを表示する
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.list_fragment_menu, menu)
+
+        val search = menu.findItem(R.id.menu_search)
+        val searchView = search.actionView as? SearchView
+        searchView?.isSubmitButtonEnabled = true
+        searchView?.setOnQueryTextListener(this)
     }
 
     // オプションメニューを選択した時の処理
@@ -108,6 +115,30 @@ class ListFragment : Fragment() {
             confirmRemoval()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if (query != null) {
+            searchThroughDatabase(query)
+        }
+        return true
+    }
+
+    override fun onQueryTextChange(query: String?): Boolean {
+        if (query != null) {
+            searchThroughDatabase(query)
+        }
+        return true
+    }
+
+    private fun searchThroughDatabase(query: String) {
+        val searchQuery = "%$query%"
+
+        mToDoViewModel.searchDatabase(searchQuery).observe(this, Observer { list ->
+            list?.let {
+                adapter.setData(it)
+            }
+        })
     }
 
     // データを全て削除
