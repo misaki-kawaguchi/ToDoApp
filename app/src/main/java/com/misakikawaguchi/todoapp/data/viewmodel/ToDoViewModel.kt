@@ -21,11 +21,16 @@ class ToDoViewModel(application: Application): AndroidViewModel(application) {
     private val repository: ToDoRepository
     val getAllData: LiveData<List<ToDoData>>
 
+    val sortByHighPriority: LiveData<List<ToDoData>>
+    val sortByLowPriority: LiveData<List<ToDoData>>
+
     // リポジトリを初期化
     init {
         repository = ToDoRepository(toDoDao)
         // リポジトリから全てのデータを取得
         getAllData = repository.getAllData
+        sortByHighPriority = repository.sortByHighPriority
+        sortByLowPriority = repository.sortByLowPriority
     }
 
     // データベースに新しいデータが挿入されるたびに通知が届く
