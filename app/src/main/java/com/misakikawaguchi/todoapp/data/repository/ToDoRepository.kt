@@ -10,6 +10,9 @@ class ToDoRepository(private val toDoDao: ToDoDao) {
     // ToDoDaoから全てのデータを取得
     val getAllData: LiveData<List<ToDoData>> = toDoDao.getAllData()
 
+    val sortByHighPriority: LiveData<List<ToDoData>> = toDoDao.sortByHighPriority()
+    val sortByLowPriority: LiveData<List<ToDoData>> = toDoDao.sortByLowPriority()
+
     // データを挿入する
     suspend fun insertData(toDoData: ToDoData) {
         toDoDao.insertData(toDoData)
