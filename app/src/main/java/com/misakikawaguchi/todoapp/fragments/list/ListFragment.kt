@@ -17,6 +17,7 @@ import com.misakikawaguchi.todoapp.data.viewmodel.ToDoViewModel
 import com.misakikawaguchi.todoapp.databinding.FragmentListBinding
 import com.misakikawaguchi.todoapp.fragments.SharedViewModel
 import com.misakikawaguchi.todoapp.fragments.list.adapter.ListAdapter
+import com.misakikawaguchi.todoapp.utils.hideKeyboard
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
 class ListFragment : Fragment(), SearchView.OnQueryTextListener {
@@ -52,6 +53,9 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
 
         // メニューを設定する
         setHasOptionsMenu(true)
+
+        // キーボードを隠す
+        hideKeyboard(requireActivity())
 
         return binding.root
     }
