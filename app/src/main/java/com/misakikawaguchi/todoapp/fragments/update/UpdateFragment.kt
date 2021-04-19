@@ -14,8 +14,6 @@ import com.misakikawaguchi.todoapp.data.models.ToDoData
 import com.misakikawaguchi.todoapp.data.viewmodel.ToDoViewModel
 import com.misakikawaguchi.todoapp.databinding.FragmentUpdateBinding
 import com.misakikawaguchi.todoapp.fragments.SharedViewModel
-import kotlinx.android.synthetic.main.fragment_update.*
-import kotlinx.android.synthetic.main.fragment_update.view.*
 
 class UpdateFragment : Fragment() {
 
@@ -63,9 +61,9 @@ class UpdateFragment : Fragment() {
 
     // リストをアップデート
     private fun updateItem() {
-        val title = current_title_et.text.toString()
-        val description = current_description_et.text.toString()
-        val getPriority = current_priorities_spinner.selectedItem.toString()
+        val title = binding.currentTitleEt.text.toString()
+        val description = binding.currentDescriptionEt.text.toString()
+        val getPriority = binding.currentPrioritiesSpinner.selectedItem.toString()
 
         // データを確認する
         val validation = mSharedViewModel.verifyDataFromUser(title, description)

@@ -17,6 +17,8 @@ import com.misakikawaguchi.todoapp.data.viewmodel.ToDoViewModel
 import com.misakikawaguchi.todoapp.databinding.FragmentListBinding
 import com.misakikawaguchi.todoapp.fragments.SharedViewModel
 import com.misakikawaguchi.todoapp.fragments.list.adapter.ListAdapter
+import com.misakikawaguchi.todoapp.utils.hideKeyboard
+import com.misakikawaguchi.todoapp.utils.observeOnce
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
 class ListFragment : Fragment(), SearchView.OnQueryTextListener {
@@ -53,6 +55,9 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
         // メニューを設定する
         setHasOptionsMenu(true)
 
+        // キーボードを隠す
+        hideKeyboard(requireActivity())
+
         return binding.root
     }
 
@@ -77,7 +82,7 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
                 // データを削除する
                 mToDoViewModel.deleteItem(deletedItem)
                 adapter.notifyItemRemoved(viewHolder.adapterPosition)
-                restoreDeletedData(viewHolder.itemView, deletedItem, viewHolder.adapterPosition)
+                restoreDeletedData(viewHolder.itemView, deletedItem)
             }
         }
         val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
@@ -85,14 +90,13 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     // 削除したデータを元に戻す
-    private fun restoreDeletedData(view: View, deletedItem: ToDoData, position: Int) {
+    private fun restoreDeletedData(view: View, deletedItem: ToDoData) {
         val snackBar = Snackbar.make(
             view, "Deleted '${deletedItem.title}'",
             Snackbar.LENGTH_LONG
         )
         snackBar.setAction("Undo") {
             mToDoViewModel.insertData(deletedItem)
-            adapter.notifyItemChanged(position)
         }
         snackBar.show()
     }
@@ -134,8 +138,9 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     private fun searchThroughDatabase(query: String) {
         val searchQuery = "%$query%"
 
-        mToDoViewModel.searchDatabase(searchQuery).observe(this, Observer { list ->
+        mToDoViewModel.searchDatabase(searchQuery).observeOnce(viewLifecycleOwner, { list ->
             list?.let {
+                Log.d("ListFragment", "searchThroughDatabase")
                 adapter.setData(it)
             }
         })

@@ -11,9 +11,10 @@ import com.misakikawaguchi.todoapp.R
 import com.misakikawaguchi.todoapp.data.models.Priority
 import com.misakikawaguchi.todoapp.data.models.ToDoData
 import com.misakikawaguchi.todoapp.data.viewmodel.ToDoViewModel
+import com.misakikawaguchi.todoapp.databinding.FragmentAddBinding
+import com.misakikawaguchi.todoapp.databinding.FragmentListBinding
+import com.misakikawaguchi.todoapp.databinding.FragmentUpdateBinding
 import com.misakikawaguchi.todoapp.fragments.SharedViewModel
-import kotlinx.android.synthetic.main.fragment_add.*
-import kotlinx.android.synthetic.main.fragment_add.view.*
 
 class AddFragment : Fragment() {
 
@@ -21,21 +22,25 @@ class AddFragment : Fragment() {
     private val mToDoViewModel: ToDoViewModel by viewModels()
     private val mSharedViewModel: SharedViewModel by viewModels()
 
+    private var _binding: FragmentAddBinding? = null
+    // このプロパティは、onCreateViewとonDestroyViewの間でのみ有効
+    private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_add, container, false)
+        // Data binding
+        _binding = FragmentAddBinding.inflate(layoutInflater, container, false)
 
         // メニューを設定する
         setHasOptionsMenu(true)
 
         // 優先度を選択
-        view.priorities_spinner.onItemSelectedListener = mSharedViewModel.listener
+        binding.prioritiesSpinner.onItemSelectedListener = mSharedViewModel.listener
 
-        return view
+        return binding.root
     }
 
     // オプションメニューを表示する
@@ -54,9 +59,9 @@ class AddFragment : Fragment() {
 
     // データベースにデータを挿入
     private fun insertDataToDb() {
-        val mTitle = title_et.text.toString()
-        val mPriority = priorities_spinner.selectedItem.toString()
-        val mDescription = description_et.text.toString()
+        val mTitle = binding.titleEt.text.toString()
+        val mPriority = binding.prioritiesSpinner.selectedItem.toString()
+        val mDescription = binding.descriptionEt.text.toString()
 
         val validation = mSharedViewModel.verifyDataFromUser(mTitle, mDescription)
         if(validation) {
@@ -75,5 +80,10 @@ class AddFragment : Fragment() {
         } else {
             Toast.makeText(requireContext(), "Please fill out all fields.", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
