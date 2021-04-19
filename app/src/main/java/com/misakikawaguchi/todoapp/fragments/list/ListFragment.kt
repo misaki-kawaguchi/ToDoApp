@@ -18,6 +18,7 @@ import com.misakikawaguchi.todoapp.databinding.FragmentListBinding
 import com.misakikawaguchi.todoapp.fragments.SharedViewModel
 import com.misakikawaguchi.todoapp.fragments.list.adapter.ListAdapter
 import com.misakikawaguchi.todoapp.utils.hideKeyboard
+import com.misakikawaguchi.todoapp.utils.observeOnce
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
 class ListFragment : Fragment(), SearchView.OnQueryTextListener {
@@ -137,8 +138,9 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     private fun searchThroughDatabase(query: String) {
         val searchQuery = "%$query%"
 
-        mToDoViewModel.searchDatabase(searchQuery).observe(this, Observer { list ->
+        mToDoViewModel.searchDatabase(searchQuery).observeOnce(viewLifecycleOwner, { list ->
             list?.let {
+                Log.d("ListFragment", "searchThroughDatabase")
                 adapter.setData(it)
             }
         })
