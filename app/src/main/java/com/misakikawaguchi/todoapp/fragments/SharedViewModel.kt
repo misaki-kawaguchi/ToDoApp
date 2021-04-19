@@ -44,10 +44,17 @@ class SharedViewModel(application: Application): AndroidViewModel(application)  
     }
 
     // データを確認する
+    // title：空、description：データあり → true の反対→ false
+    // title：データあり、description：空 → true の反対→ false
+    // title: データあり、description：データあり → true の反対→ false
+    // title：空、description：空 → false の反対 → true
     fun verifyDataFromUser(title: String, description: String): Boolean {
-        return if(TextUtils.isEmpty(title) || TextUtils.isEmpty((description))) {
-            false
-        } else !(title.isEmpty() || description.isEmpty())
+        return !(title.isEmpty() || description.isEmpty())
+        /*
+        if (title.isEmpty() || description.isEmpty()) {
+            return false
+        } else return true
+         */
     }
 
     // 優先度を解析する
